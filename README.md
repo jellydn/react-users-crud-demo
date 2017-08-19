@@ -7,3 +7,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
  # Dependence library
  * [Rebass](http://jxnblk.com/rebass/)
+ * [react-snapshot](https://www.npmjs.com/package/react-snapshot)
+ * [styled-components](https://github.com/styled-components/styled-components)
