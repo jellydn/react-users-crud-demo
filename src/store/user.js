@@ -20,25 +20,37 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }
 
-function initFakeData() {
+if (hasSupportLocalStorage()) {
   try {
     data = JSON.parse(localStorage.getItem(DB_KEY));
+    // fallback to array when its null
+    if (!data) {
+      data = [];
+    }
   } catch (error) {
     data = [];
   }
-  if (data && data.length === 0) {
-    for (let index = 0; index < 5; index++) {
-      data.push({
-        id: faker.random.uuid(),
-        name: faker.name.findName(),
-        age: getRandomIntInclusive(20, 40),
-        nickname: faker.internet.userName()
-      });
+}
+
+function initFakeData() {
+  const dev = process.env.NODE_ENV !== 'production';
+  if (dev) {
+    if (data && data.length === 0) {
+      for (let index = 0; index < 5; index++) {
+        data.push({
+          id: faker.random.uuid(),
+          name: faker.name.findName(),
+          age: getRandomIntInclusive(20, 40),
+          nickname: faker.internet.userName()
+        });
+      }
+      hasSupportLocalStorage() &&
+        localStorage.setItem(DB_KEY, JSON.stringify(data));
     }
-    hasSupportLocalStorage() &&
-      localStorage.setItem(DB_KEY, JSON.stringify(data));
   }
 }
+
+initFakeData();
 
 function addUser(user, callback) {
   const newUser = { id: faker.random.uuid(), ...user };

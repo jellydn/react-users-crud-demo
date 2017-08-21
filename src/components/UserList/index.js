@@ -18,13 +18,17 @@ class UserList extends Component {
   };
 
   renderUserRow = users => {
-    return users.map(item =>
-      <UserItem
-        key={`${item.id}-${item.nickname}`}
-        {...item}
-        onEdit={this.props.onEdit}
-        onRemove={this.props.onRemove}
-      />
+    return (
+      users &&
+      users.length > 0 &&
+      users.map(item =>
+        <UserItem
+          key={`${item.id}-${item.nickname}`}
+          {...item}
+          onEdit={this.props.onEdit}
+          onRemove={this.props.onRemove}
+        />
+      )
     );
   };
 

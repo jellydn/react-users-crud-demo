@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import { Flex, Box, Button } from 'rebass';
 import UserList from '../../components/UserList';
 import UserCreation from '../../components/UserCreation';
-import {
-  getUsers,
-  addUser,
-  updateUser,
-  removeUser,
-  initFakeData
-} from '../../store/user';
+import { getUsers, addUser, updateUser, removeUser } from '../../store/user';
 import logger from '../../utils/logger';
 
 class Users extends Component {
@@ -92,7 +86,6 @@ class Users extends Component {
 
   componentWillMount() {
     logger.warn('componentWillMount');
-    initFakeData();
     this.setState({
       users: getUsers()
     });
@@ -100,7 +93,7 @@ class Users extends Component {
 
   render() {
     const { users, isAdding, newUser } = this.state;
-    console.warn('Users render', users, isAdding, newUser);
+    logger.warn('Users render', users, isAdding, newUser);
     return (
       <Flex column align="center">
         <Box m="auto">
