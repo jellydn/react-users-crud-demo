@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { Flex, Box, Button } from 'rebass';
 import UserList from '../../components/UserList';
 import UserCreation from '../../components/UserCreation';
-import { Flex, Box, Button } from 'rebass';
+import {
+  getUsers,
+  addUser,
+  updateUser,
+  removeUser,
+  initFakeData
+} from '../../store/user';
 
 class Users extends Component {
   state = {
@@ -9,36 +16,50 @@ class Users extends Component {
     isAdding: false,
     newUser: {
       name: '',
-      age: 10,
+      age: 0,
       nickname: ''
     }
   };
 
-  showNewUserForm = () => {
+  onShowNewUserForm = () => {
     this.setState(prevState => ({ isAdding: true }));
   };
 
-  closeNewUserForm = () => {
+  onCloseNewUserForm = () => {
     this.setState(prevState => ({ isAdding: false }));
   };
 
-  addUser = () => {
-    console.warn('addUser');
-    const { newUser } = this.state;
-    this.setState(
-      prevState => ({
-        users: [].concat(prevState.users, { ...newUser, id: Date.now() })
-      }),
-      () => {
-        this.setState({
-          newUser: {
-            name: '',
-            age: 10,
-            nickname: ''
-          }
-        });
-      }
-    );
+  onAddUser = () => {
+    const { newUser, users } = this.state;
+    console.warn('onAddUser', newUser);
+    addUser(newUser, () => {
+      this.setState({
+        users: getUsers(),
+        newUser: {
+          name: '',
+          age: 0,
+          nickname: ''
+        }
+      });
+    });
+  };
+
+  onUpdateUser = (id, user) => {
+    console.warn('onRemoveUser', id);
+    updateUser(id, user, () => {
+      this.setState({
+        users: getUsers()
+      });
+    });
+  };
+
+  onRemoveUser = id => {
+    console.warn('onRemoveUser', id);
+    removeUser(id, () => {
+      this.setState({
+        users: getUsers()
+      });
+    });
   };
 
   onChangeInput = (field, value) => {
@@ -51,7 +72,7 @@ class Users extends Component {
         hasChange = true;
         break;
       case 'age':
-        updateData = Object.assign({}, newUser, { age: value });
+        updateData = Object.assign({}, newUser, { age: Number(value) });
         hasChange = true;
         break;
       case 'nickname':
@@ -68,25 +89,38 @@ class Users extends Component {
     }
   };
 
+  componentWillMount() {
+    console.warn('componentWillMount');
+    initFakeData();
+    this.setState({
+      users: getUsers()
+    });
+  }
+
   render() {
     const { users, isAdding, newUser } = this.state;
+    console.warn('Users render', users, isAdding, newUser);
     return (
       <Flex column align="center">
         <Box m="auto">
-          <UserList users={users} />
+          <UserList
+            users={users}
+            onEdit={this.onUpdateUser}
+            onRemove={this.onRemoveUser}
+          />
         </Box>
         {isAdding &&
           <Box m="auto">
             <UserCreation
               {...newUser}
-              onSave={this.addUser}
-              onCancel={this.closeNewUserForm}
+              onSave={this.onAddUser}
+              onCancel={this.onCloseNewUserForm}
               onChange={this.onChangeInput}
             />
           </Box>}
         {!isAdding &&
           <Box m="auto">
-            <Button onClick={this.showNewUserForm} children="Add" />
+            <Button onClick={this.onShowNewUserForm} children="Add" />
           </Box>}
       </Flex>
     );

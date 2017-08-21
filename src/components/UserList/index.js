@@ -1,20 +1,29 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Column, Divider } from 'rebass';
 import UserItem from './UserItem';
 
-class UserList extends PureComponent {
+class UserList extends Component {
   static propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    users: []
+    users: [],
+    onEdit: (userId, user) => {},
+    onRemove: userId => {}
   };
 
   renderUserRow = users => {
     return users.map(item =>
-      <UserItem key={`${item.id}-${item.nickname}`} {...item} />
+      <UserItem
+        key={`${item.id}-${item.nickname}`}
+        {...item}
+        onEdit={this.props.onEdit}
+        onRemove={this.props.onRemove}
+      />
     );
   };
 

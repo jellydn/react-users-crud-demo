@@ -14,26 +14,32 @@ class UserCreation extends PureComponent {
 
   static defaultProps = {
     name: '',
-    age: 10,
+    age: 0,
     nickname: '',
     onChange: (field, value) => {},
     onSave: user => {},
     onCancel: () => {}
   };
 
+  onSubmit = evt => {
+    evt.preventDefault();
+    console.warn('onSubmit');
+  };
+
   render() {
     const { age, name, nickname } = this.props;
-
     return (
       <Container>
         <Row>
           <Input
+            required
             placeholder="Name"
             name="name"
             value={name}
             onChange={evt => this.props.onChange('name', evt.target.value)}
           />
           <Input
+            required
             type="number"
             placeholder="0"
             name="age"
@@ -41,6 +47,7 @@ class UserCreation extends PureComponent {
             onChange={evt => this.props.onChange('age', evt.target.value)}
           />
           <Input
+            required
             placeholder="Nickname"
             name="nickname"
             value={nickname}

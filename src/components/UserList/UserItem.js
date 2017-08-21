@@ -4,11 +4,13 @@ import { Row, Column, Button } from 'rebass';
 
 class UserItem extends Component {
   static propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     age: PropTypes.number.isRequired,
     nickname: PropTypes.string.isRequired,
-    isEdit: PropTypes.bool.isRequired
+    isEdit: PropTypes.bool.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -16,10 +18,12 @@ class UserItem extends Component {
     name: '',
     age: 0,
     nickname: '',
-    isEdit: false
+    isEdit: false,
+    onEdit: (userId, user) => {},
+    onRemove: userId => {}
   };
 
-  renderAction = isEdit => {
+  renderAction = ({ id, isEdit }) => {
     if (isEdit) {
       return (
         <Column>
@@ -31,7 +35,12 @@ class UserItem extends Component {
     return (
       <Column>
         <Button children="Edit" />
-        <Button children="Delete" />
+        <Button
+          onClick={() => {
+            this.props.onRemove(id);
+          }}
+          children="Delete"
+        />
       </Column>
     );
   };
@@ -49,7 +58,7 @@ class UserItem extends Component {
         <Column>
           {nickname}
         </Column>
-        {this.renderAction(isEdit)}
+        {this.renderAction(this.props)}
       </Row>
     );
   }
