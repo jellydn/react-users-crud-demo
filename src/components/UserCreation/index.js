@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Input, Button } from 'rebass';
+import logger from '../../utils/logger';
 
 class UserCreation extends PureComponent {
   static propTypes = {
@@ -23,7 +24,7 @@ class UserCreation extends PureComponent {
 
   onSubmit = evt => {
     evt.preventDefault();
-    console.warn('onSubmit');
+    logger.warn('onSubmit');
   };
 
   render() {

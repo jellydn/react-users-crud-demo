@@ -9,6 +9,7 @@ import {
   removeUser,
   initFakeData
 } from '../../store/user';
+import logger from '../../utils/logger';
 
 class Users extends Component {
   state = {
@@ -30,8 +31,8 @@ class Users extends Component {
   };
 
   onAddUser = () => {
-    const { newUser, users } = this.state;
-    console.warn('onAddUser', newUser);
+    const { newUser } = this.state;
+    logger.warn('onAddUser', newUser);
     addUser(newUser, () => {
       this.setState({
         users: getUsers(),
@@ -45,7 +46,7 @@ class Users extends Component {
   };
 
   onUpdateUser = (id, user) => {
-    console.warn('onRemoveUser', id);
+    logger.warn('onRemoveUser', id);
     updateUser(id, user, () => {
       this.setState({
         users: getUsers()
@@ -54,7 +55,7 @@ class Users extends Component {
   };
 
   onRemoveUser = id => {
-    console.warn('onRemoveUser', id);
+    logger.warn('onRemoveUser', id);
     removeUser(id, () => {
       this.setState({
         users: getUsers()
@@ -80,7 +81,7 @@ class Users extends Component {
         hasChange = true;
         break;
       default:
-        console.warn('unsupport field', field);
+        logger.warn('unsupport field', field);
     }
     if (hasChange) {
       this.setState(prevState => ({
@@ -90,7 +91,7 @@ class Users extends Component {
   };
 
   componentWillMount() {
-    console.warn('componentWillMount');
+    logger.warn('componentWillMount');
     initFakeData();
     this.setState({
       users: getUsers()

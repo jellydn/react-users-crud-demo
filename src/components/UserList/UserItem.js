@@ -46,7 +46,7 @@ class UserItem extends Component {
   };
 
   render() {
-    const { id, name, age, nickname, isEdit } = this.props;
+    const { id, name, age, nickname } = this.props;
     return (
       <Row key={`${id}-${nickname}`}>
         <Column>

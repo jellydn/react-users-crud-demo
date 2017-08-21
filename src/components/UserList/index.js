@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Column, Divider } from 'rebass';
 import UserItem from './UserItem';
+import logger from '../../utils/logger';
 
 class UserList extends Component {
   static propTypes = {
@@ -29,7 +30,7 @@ class UserList extends Component {
 
   render() {
     const { users } = this.props;
-    console.warn('User List', users);
+    logger.warn('User List', users);
     return (
       <Container>
         <Row>

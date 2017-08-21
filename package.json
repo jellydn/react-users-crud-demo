@@ -6,6 +6,7 @@
   "dependencies": {
     "faker": "^4.1.0",
     "gh-pages": "^1.0.0",
+    "loglevel": "^1.4.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

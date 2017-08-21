@@ -1,4 +1,5 @@
 import faker from 'faker';
+import logger from '../utils/logger';
 const DB_KEY = 'REACT_USERS';
 let data = [];
 
@@ -25,7 +26,7 @@ function initFakeData() {
   } catch (error) {
     data = [];
   }
-  if (data.length === 0) {
+  if (data && data.length === 0) {
     for (let index = 0; index < 5; index++) {
       data.push({
         id: faker.random.uuid(),
@@ -70,7 +71,7 @@ function updateUser(userId, user, callback) {
 }
 
 function getUsers() {
-  console.warn('getUsers', data);
+  logger.warn('getUsers', data);
   return data;
 }
 
