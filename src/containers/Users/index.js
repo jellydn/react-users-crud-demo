@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Flex, Box, Button } from 'rebass';
 import UserList from '../../components/UserList';
-import UserCreation from '../../components/UserCreation';
+import UserForm from '../../components/UserForm';
 import { getUsers, addUser, updateUser, removeUser } from '../../store/user';
 import logger from '../../utils/logger';
 
@@ -13,7 +13,8 @@ class Users extends Component {
       name: '',
       age: 0,
       nickname: ''
-    }
+    },
+    editIds: []
   };
 
   onShowNewUserForm = () => {
@@ -22,6 +23,18 @@ class Users extends Component {
 
   onCloseNewUserForm = () => {
     this.setState(prevState => ({ isAdding: false }));
+  };
+
+  onInlineEdit = (id, isEdit = true) => {
+    if (isEdit) {
+      this.setState(prevState => ({
+        editIds: [].concat(prevState.editIds, id)
+      }));
+    } else {
+      this.setState(prevState => ({
+        editIds: prevState.editIds.filter(item => item !== id)
+      }));
+    }
   };
 
   onAddUser = () => {
@@ -77,6 +90,8 @@ class Users extends Component {
       default:
         logger.warn('unsupport field', field);
     }
+    logger.warn('onChangeInput newUser', field, value, updateData);
+
     if (hasChange) {
       this.setState(prevState => ({
         newUser: updateData
@@ -92,20 +107,22 @@ class Users extends Component {
   }
 
   render() {
-    const { users, isAdding, newUser } = this.state;
+    const { users, editIds, isAdding, newUser } = this.state;
     logger.warn('Users render', users, isAdding, newUser);
     return (
       <Flex column align="center">
         <Box m="auto">
           <UserList
             users={users}
+            editIds={editIds}
             onEdit={this.onUpdateUser}
+            onInlineEdit={this.onInlineEdit}
             onRemove={this.onRemoveUser}
           />
         </Box>
         {isAdding &&
           <Box m="auto">
-            <UserCreation
+            <UserForm
               {...newUser}
               onSave={this.onAddUser}
               onCancel={this.onCloseNewUserForm}
