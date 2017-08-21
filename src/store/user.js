@@ -2,6 +2,17 @@ import faker from 'faker';
 const DB_KEY = 'REACT_USERS';
 let data = [];
 
+function hasSupportLocalStorage() {
+  var mod = 'modernizr';
+  try {
+    localStorage.setItem(mod, mod);
+    localStorage.removeItem(mod);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -23,14 +34,16 @@ function initFakeData() {
         nickname: faker.internet.userName()
       });
     }
-    localStorage.setItem(DB_KEY, JSON.stringify(data));
+    hasSupportLocalStorage() &&
+      localStorage.setItem(DB_KEY, JSON.stringify(data));
   }
 }
 
 function addUser(user, callback) {
   const newUser = { id: faker.random.uuid(), ...user };
   data.push(newUser);
-  localStorage.setItem(DB_KEY, JSON.stringify(data));
+  hasSupportLocalStorage() &&
+    localStorage.setItem(DB_KEY, JSON.stringify(data));
   callback && callback();
 }
 
@@ -40,7 +53,8 @@ function removeUser(userId, callback) {
   if (foundIndex !== -1) {
     data.splice(foundIndex, 1);
   }
-  localStorage.setItem(DB_KEY, JSON.stringify(data));
+  hasSupportLocalStorage() &&
+    localStorage.setItem(DB_KEY, JSON.stringify(data));
   callback && callback();
 }
 
@@ -50,7 +64,8 @@ function updateUser(userId, user, callback) {
     const updateData = Object.assign({}, data[foundIndex], user);
     data.splice(foundIndex, 1, updateData);
   }
-  localStorage.setItem(DB_KEY, JSON.stringify(data));
+  hasSupportLocalStorage() &&
+    localStorage.setItem(DB_KEY, JSON.stringify(data));
   callback && callback();
 }
 
