@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "faker": "^4.1.0",
+    "faker": "5.5.3",
     "gh-pages": "^1.0.0",
     "loglevel": "^1.4.1",
     "prop-types": "^15.5.10",
