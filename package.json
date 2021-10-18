@@ -27,7 +27,7 @@
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
-    "@storybook/react": "^3.2.5",
+    "@storybook/react": "3.4.12",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-prettier": "^2.2.0",
     "eslint-plugin-react": "^7.2.1",
